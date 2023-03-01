@@ -1,0 +1,69 @@
+﻿<Window x:Class="BetParser.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BetParser.Wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Margin="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+            <TextBlock Text="Погрешность - " />
+            <TextBlock Text="{Binding Measurement}" />
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="70"></ColumnDefinition>
+                <ColumnDefinition Width="90"></ColumnDefinition>
+                <ColumnDefinition Width="80"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Тип" />
+            <TextBlock Grid.Column="1" Text="Коэффициент" />
+            <TextBlock Grid.Column="2" Text="Победы" />
+            <TextBlock Grid.Column="3" Text="Проигрыши" />
+            <TextBlock Grid.Column="4" Text="Профит" />
+        </Grid>
+        <ListBox Grid.Row="2" 
+                 ItemsSource="{Binding Bets}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"></ColumnDefinition>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="70"></ColumnDefinition>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition Width="80"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Type}" />
+                        <TextBlock Grid.Column="1" Text="{Binding OddValue}" />
+                        <TextBlock Grid.Column="2" Text="{Binding WinCount}" />
+                        <TextBlock Grid.Column="3" Text="{Binding LoseCount}" />
+                        <TextBlock Grid.Column="4" Text="{Binding Profit}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Grid.Row="3"
+                 ItemsSource="{Binding Matches}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Date, StringFormat=d}"  Padding="0 0 8 0"/> 
+                        <TextBlock Text="{Binding Team1}" Padding="0 0 8 0" />
+                        <TextBlock Text="-" Padding="0 0 8 0" />
+                        <TextBlock Text="{Binding Team2}" Padding="0 0 8 0" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Window>
