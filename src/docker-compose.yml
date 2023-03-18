@@ -1,0 +1,40 @@
+version: '3.4'
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  betparser.server:
+    image: ${DOCKER_REGISTRY-}betparserserver
+    depends_on:
+        - "app_db"
+    container_name: betparser.server
+    ports:
+        - "8088:80" 
+    build:
+      context: .
+      dockerfile: BetParser.Server\Dockerfile
+    environment:
+        - ConnectionStrings__DefaultConnection=User ID=postgres;Password=admin;Server=app_db;Port=5432;Database=usersdb; IntegratedSecurity=true;Pooling=true;
+        - ASPNETCORE_URLS=http://+:80
+    networks:
+        - dev
+
+  app_db:
+    image: postgres:latest
+    container_name: app_db
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=sobaka06243
+        - POSTGRES_DB=usersdb
+    ports:
+        - "5433:5432"
+    restart: always
+    volumes: 
+        - app_data:/var/lib/postgresql/data
+    networks:
+        - dev
+
+volumes:
+    app_data:

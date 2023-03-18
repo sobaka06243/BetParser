@@ -20,6 +20,7 @@ builder.Services.AddDbContext<DataDbContext>(options =>
 
 builder.Services.AddTransient<IDataOperator, DataOperator>();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -35,4 +36,21 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+UpdateDatabase(app);
+
 app.Run();
+
+
+static void UpdateDatabase(IHost app)
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+
+        var context = services.GetRequiredService<DataDbContext>();
+        if (context.Database.GetPendingMigrations().Any())
+        {
+            context.Database.Migrate();
+        }
+    }
+}
